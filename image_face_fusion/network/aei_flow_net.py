@@ -195,9 +195,9 @@ class AADGenerator(nn.Module):
         if h_old != h or w_old != w:
             deformation = deformation.permute(0, 3, 1, 2)
             deformation = F.interpolate(
-                deformation, size=(h, w), mode='bilinear')
+                deformation, size=(h, w), mode='bilinear', align_corners=True)
             deformation = deformation.permute(0, 2, 3, 1)
-        return F.grid_sample(inp, deformation), deformation
+        return F.grid_sample(inp, deformation, align_corners=True), deformation
 
 
 class AEI_Net(nn.Module):
@@ -216,9 +216,9 @@ class AEI_Net(nn.Module):
         if h_old != h or w_old != w:
             deformation = deformation.permute(0, 3, 1, 2)
             deformation = F.interpolate(
-                deformation, size=(h, w), mode='bilinear')
+                deformation, size=(h, w), mode='bilinear', align_corners=True)
             deformation = deformation.permute(0, 2, 3, 1)
-        return F.grid_sample(inp, deformation), deformation
+        return F.grid_sample(inp, deformation, align_corners=True), deformation
 
     def flow_change(self, x, flow):
         n, c, h, w = x.size()

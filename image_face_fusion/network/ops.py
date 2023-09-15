@@ -140,6 +140,10 @@ def _torch_inverse_cast(input):
     dtype = input.dtype
     if dtype not in (torch.float32, torch.float64):
         dtype = torch.float32
+    c, h, w = input.shape
+    if c * h * w < 100 * 100 and input.device.type == "cuda":
+        input = input.cpu()
+        return torch.inverse(input.to(dtype)).to(input.dtype).cuda()
     return torch.inverse(input.to(dtype)).to(input.dtype)
 
 

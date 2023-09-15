@@ -277,9 +277,9 @@ class ImageFaceFusion(torch.nn.Module):
         kp_t = {}
 
         c_s = self.f_3d(
-            F.interpolate(Xs * 0.5 + 0.5, size=224, mode='bilinear'))
+            F.interpolate(Xs * 0.5 + 0.5, size=224, mode='bilinear', align_corners=True))
         c_t = self.f_3d(
-            F.interpolate(Xt * 0.5 + 0.5, size=224, mode='bilinear'))
+            F.interpolate(Xt * 0.5 + 0.5, size=224, mode='bilinear', align_corners=True))
         c_fuse = torch.cat(((c_s[:, :80] + c_t[:, :80]) / 2, c_t[:, 80:]),
                            dim=1)
         _, _, _, q_fuse = self.face_model.compute_for_render(c_fuse)

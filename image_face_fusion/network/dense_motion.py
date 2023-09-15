@@ -335,7 +335,7 @@ class DenseMotionNetwork(nn.Module):
         temp_dim = bs * (self.num_kp + 1)
         source_repeat = source_repeat.view(temp_dim, -1, h, w)
         sparse_motions = sparse_motions.view((temp_dim, h, w, -1))
-        sparse_deformed = F.grid_sample(source_repeat, sparse_motions)
+        sparse_deformed = F.grid_sample(source_repeat, sparse_motions, align_corners=True)
         sparse_deformed = sparse_deformed.view((bs, self.num_kp + 1, -1, h, w))
         return sparse_deformed
 
